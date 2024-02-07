@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name ="cars")
 public class Car extends RepresentationModel<Car> implements Serializable{
-	
+	/////////
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;

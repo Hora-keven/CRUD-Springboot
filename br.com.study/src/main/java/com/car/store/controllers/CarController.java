@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping(value = "car")
 public class CarController {
-	
+
 	@Autowired
 	private CarService carService;
 	
