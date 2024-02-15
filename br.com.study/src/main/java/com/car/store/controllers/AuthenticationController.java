@@ -38,13 +38,13 @@ public class AuthenticationController {
     }
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDto data){
-
+    	
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse(tokenService.register(data)));
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserResponse>> findAll(){
         return ResponseEntity.ok().body(userServices.findAll());
     }
 }

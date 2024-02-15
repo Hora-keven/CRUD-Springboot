@@ -1,5 +1,6 @@
 package com.car.store.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.stereotype.Service;
 
-
+import com.car.store.dtos.UserResponse;
 import com.car.store.model.User;
 import com.car.store.repositories.UserRepository;
 
@@ -27,9 +28,14 @@ public class UserService implements UserDetailsService {
 		return repository.findByLogin(username);
 	}
 	
-	public List<User> findAll(){
+	public List<UserResponse> findAll(){
 		List<User>users = repository.findAll();
-		return users;
+		List<UserResponse> usersDto = new ArrayList<>();
+		for (User user : users) {
+			var u = new UserResponse(user);
+			usersDto.add(u);
+		}
+		return usersDto;
 	}
 
 	

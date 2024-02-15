@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/carDatabase?useTimezone=true&serverTimezone=UTC
     username: root
-    password: root
+    password: ROOT
     
   main:
     allow-circular-references: true
@@ -12,13 +12,14 @@ spring:
    
   jpa:
     hibernate:
+     
       ddl-auto: update
     show-sql: false
     
-
 server:
   error:
     include-stacktrace: never
+    
 api:
   security:
     token:
