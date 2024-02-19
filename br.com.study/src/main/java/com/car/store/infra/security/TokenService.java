@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.car.store.dtos.AuthenticationDto;
 import com.car.store.dtos.RegisterDto;
 import com.car.store.dtos.UserResponse;
+import com.car.store.infra.exceptions.TokenException;
 import com.car.store.model.User;
 
 import com.car.store.repositories.UserRepository;
@@ -28,12 +29,9 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
+	
     @Value("${api.security.token.secret}")
     private String secret;
-
-
-
-
     @Autowired
     private UserRepository repository;
     @Autowired
@@ -61,13 +59,15 @@ public class TokenService {
                     .build()
                     .verify(token)
                     .getSubject();
+            
         } catch (JWTVerificationException exception){
-            return "";
+        	return null;
+            
         }
     }
 
     private Instant genExpirationDate(){
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
 
     public String login(AuthenticationDto data){

@@ -32,8 +32,8 @@ public class UserService implements UserDetailsService {
 		List<User>users = repository.findAll();
 		List<UserResponse> usersDto = new ArrayList<>();
 		for (User user : users) {
-			var u = new UserResponse(user);
-			usersDto.add(u);
+			var userDto = new UserResponse(user);
+			usersDto.add(userDto);
 		}
 		return usersDto;
 	}

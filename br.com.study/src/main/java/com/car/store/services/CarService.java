@@ -1,11 +1,14 @@
 package com.car.store.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.car.store.dtos.CarDtoResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.car.store.dtos.CarDto;
@@ -19,31 +22,38 @@ public class CarService {
 	@Autowired
 	private CarRepository repository;
 	
-	public List<Car> findAll(){
-		List<Car> cars = repository.findAll();
+	public List<CarDtoResponse> findAll(int pageNumber, int pageSize){
+		Page<Car> pageCars = repository.findAll(PageRequest.of(pageNumber, pageSize));
+		List<Car> cars = pageCars.get().toList();
+		List<CarDtoResponse> carsDto = new ArrayList<>();
 		
 		if(cars.isEmpty()) {
 			throw new CarException();
 		}
-		return cars;
+		for (Car car : cars) {
+			var dto = new CarDtoResponse(car);
+			carsDto.add(dto);
+		}
+		return carsDto;
 	}
-	public Car findById(long id) {
+	public CarDtoResponse findById(long id) {
 		Optional<Car> car = repository.findById(id);
+		
 		if(car.isEmpty()) {
 			throw new CarException();
 		}
 		
 		
-		return car.get();
+		return new CarDtoResponse(car.get());
 	}
-	public CarDto update(CarDto carDto, long id) {
+	public CarDtoResponse update(CarDto carDto, long id) {
 		Optional<Car> car = repository.findById(id);
 		if(car.isEmpty()) {
 			throw new CarException();
 		}
 		var carEntity = car.get();
 		repository.save(carEntity);
-		return carDto;
+		return new CarDtoResponse(carEntity);
 		
 	}
 	public CarDtoResponse create(CarDto carDto) {
