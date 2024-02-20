@@ -8,10 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+@RestControllerAdvice
 @ControllerAdvice
 public class ExceptionsHandler extends ResponseEntityExceptionHandler{
 	
@@ -28,7 +29,7 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler{
 		
 	}
 	
-	@ExceptionHandler(TokenException.class)
+	@ExceptionHandler({TokenException.class, RuntimeException.class})
 	public ResponseEntity<MessageResponse> error401TokenInvalid(TokenException ex, WebRequest request){
 		MessageResponse message = new MessageResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), LocalDateTime.now());
 		// return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);

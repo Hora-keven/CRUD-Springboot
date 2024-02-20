@@ -20,11 +20,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfigurations {
 	
 	@Autowired
-	
 	SecurityFilter securityFilter;
 	
+	
+	private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+	
+	public SecurityConfigurations(CustomAuthenticationEntryPoint authenticationEntryPoint) {
+		this.authenticationEntryPoint = authenticationEntryPoint;
+	}
+	
 	@Bean
-	public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity)throws Exception {
+	public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity.csrf(AbstractHttpConfigurer::disable)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
@@ -32,6 +38,7 @@ public class SecurityConfigurations {
 						.requestMatchers(HttpMethod.POST, "/car").hasRole("USER").anyRequest().authenticated()
 						
 					)
+				.exceptionHandling(configurer -> configurer.authenticationEntryPoint(authenticationEntryPoint))
 				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
 	@Bean
