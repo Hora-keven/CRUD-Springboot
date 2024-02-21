@@ -1,10 +1,15 @@
+server:
+  error:
+    include-stacktrace: never
+  port: 8082
+  
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/car_database?useTimezone=true&serverTimezone=UTC
     username: root
-    password: root
-
+    password: Godblessyou_forever1@#
+  
   main:
     allow-circular-references: true
     
@@ -19,10 +24,8 @@ spring:
   web:
     resources:
       add-mappings: false  
-server:
-  error:
-    include-stacktrace: never
-    
+
+      
 api:
   security:
     token:
@@ -32,6 +35,37 @@ flyway:
   url: jdbc:mysql://localhost:3306/
   schemas: car_database
   user: root
-  password: root
+  password: Godblessyou_forever1@#
+  
+springdoc:
+  use-management-port: true
+  show-actuator: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include:  "*"
+              
+      cors:
+        allowed-headers:
+        - "*"
+        allowed-origins:
+        - "*"
+        allowed-methods:
+        - "*"
+        allow-credentials: false
+        
+  server:
+    port: 8085
+    
+  endpoint:
+    shutdown:
+      enabled: true
+    
+
 
       
